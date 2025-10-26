@@ -20,7 +20,7 @@ export default function RootLayout({
       <body className={`${GeistSans.className}  antialiased`}>
         <TRPCReactProvider>
           {children}
-          <Toaster />
+          <Toaster richColors />
         </TRPCReactProvider>
       </body>
     </html>

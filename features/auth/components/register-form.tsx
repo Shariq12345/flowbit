@@ -98,6 +98,12 @@ export function RegisterForm() {
                     type="button"
                     disabled={isPending}
                   >
+                    <Image
+                      src={"/github.svg"}
+                      width={20}
+                      height={20}
+                      alt="github logo"
+                    />
                     Continue with Github
                   </Button>
                   <Button
@@ -106,6 +112,12 @@ export function RegisterForm() {
                     type="button"
                     disabled={isPending}
                   >
+                    <Image
+                      src={"/google.svg"}
+                      width={20}
+                      height={20}
+                      alt="google logo"
+                    />
                     Continue with Google
                   </Button>
                 </div>
@@ -117,11 +129,7 @@ export function RegisterForm() {
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input
-                            type="email"
-                            placeholder="johndoe@example.com"
-                            {...field}
-                          />
+                          <Input type="email" placeholder="" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -134,11 +142,7 @@ export function RegisterForm() {
                       <FormItem>
                         <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="••••••••"
-                            {...field}
-                          />
+                          <Input type="password" placeholder="" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -151,11 +155,7 @@ export function RegisterForm() {
                       <FormItem>
                         <FormLabel>Confirm Password</FormLabel>
                         <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="••••••••"
-                            {...field}
-                          />
+                          <Input type="password" placeholder="" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

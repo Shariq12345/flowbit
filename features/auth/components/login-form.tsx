@@ -1,12 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { email, z } from "zod";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,6 +24,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { authClient } from "@/lib/auth-client";
+import Image from "next/image";
 
 const loginFormSchema = z.object({
   email: z.email({ message: "Please enter a valid email address" }),
@@ -46,7 +47,22 @@ export function LoginForm() {
   });
 
   const onSubmit = async (value: LoginFormValues) => {
-    console.log("Login form submitted:", value);
+    await authClient.signIn.email(
+      {
+        email: value.email,
+        password: value.password,
+        callbackURL: "/",
+      },
+      {
+        onSuccess: () => {
+          router.push("/");
+          toast.success("Logged in successfully!");
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
+        },
+      }
+    );
   };
 
   const isPending = form.formState.isSubmitting;
@@ -71,6 +87,12 @@ export function LoginForm() {
                     type="button"
                     disabled={isPending}
                   >
+                    <Image
+                      src={"/github.svg"}
+                      width={20}
+                      height={20}
+                      alt="github logo"
+                    />
                     Continue with Github
                   </Button>
                   <Button
@@ -79,6 +101,12 @@ export function LoginForm() {
                     type="button"
                     disabled={isPending}
                   >
+                    <Image
+                      src={"/google.svg"}
+                      width={20}
+                      height={20}
+                      alt="google logo"
+                    />
                     Continue with Google
                   </Button>
                 </div>
@@ -90,11 +118,7 @@ export function LoginForm() {
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input
-                            type="email"
-                            placeholder="johndoe@example.com"
-                            {...field}
-                          />
+                          <Input type="email" placeholder="" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -107,11 +131,7 @@ export function LoginForm() {
                       <FormItem>
                         <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="••••••••"
-                            {...field}
-                          />
+                          <Input type="password" placeholder="" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
