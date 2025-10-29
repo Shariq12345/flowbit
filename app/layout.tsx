@@ -5,6 +5,8 @@ import "./globals.css";
 import { TRPCReactProvider } from "@/trpc/client";
 import { Toaster } from "@/components/ui/sonner";
 
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+
 export const metadata: Metadata = {
   title: "Flowbit — Automate Anything Visually",
   description:
@@ -20,8 +22,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${GeistSans.className}  antialiased`}>
         <TRPCReactProvider>
-          {children}
-          <Toaster richColors />
+          <NuqsAdapter>
+            {children}
+            <Toaster richColors />
+          </NuqsAdapter>
         </TRPCReactProvider>
       </body>
     </html>
