@@ -2,15 +2,18 @@
 
 import { createId } from "@paralleldrive/cuid2";
 import { useReactFlow } from "@xyflow/react";
-import { GlobeIcon, MousePointerIcon } from "lucide-react";
+import {
+  GlobeIcon,
+  MousePointerClickIcon,
+  DatabaseIcon,
+  ClockIcon,
+} from "lucide-react";
 import React, { useCallback } from "react";
 import { toast } from "sonner";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -18,6 +21,7 @@ import {
 import { NodeType } from "@/lib/generated/prisma/enums";
 import { Separator } from "./ui/separator";
 
+// Define the Node type and interface
 export type NodeTypeOption = {
   type: NodeType;
   label: string;
@@ -25,22 +29,47 @@ export type NodeTypeOption = {
   icon: React.ComponentType<{ className?: string }>;
 };
 
-const triggerNodes: NodeTypeOption[] = [
+// 🧩 Category-based configuration — easy to extend
+const NODE_CATEGORIES: {
+  title: string;
+  description?: string;
+  nodes: NodeTypeOption[];
+}[] = [
   {
-    type: NodeType.MANUAL_TRIGGER,
-    label: "Trigger manually",
-    description:
-      "Runs the flow on clicking a button. Good for getting started quickly",
-    icon: MousePointerIcon,
+    title: "Triggers",
+    description: "Start your workflow when something happens",
+    nodes: [
+      {
+        type: NodeType.MANUAL_TRIGGER,
+        label: "Manual Trigger",
+        description: "Run the flow manually with a button click",
+        icon: MousePointerClickIcon,
+      },
+      {
+        type: NodeType.SCHEDULE_TRIGGER,
+        label: "Scheduled Trigger",
+        description: "Run the flow on a time interval or cron job",
+        icon: ClockIcon,
+      },
+    ],
   },
-];
-
-const executionNodes: NodeTypeOption[] = [
   {
-    type: NodeType.HTTP_REQUEST,
-    label: "HTTP Request",
-    description: "Makes an HTTP Request",
-    icon: GlobeIcon,
+    title: "Actions",
+    description: "Perform tasks or interact with APIs",
+    nodes: [
+      {
+        type: NodeType.HTTP_REQUEST,
+        label: "HTTP Request",
+        description: "Make an HTTP request to another service",
+        icon: GlobeIcon,
+      },
+      {
+        type: NodeType.DATABASE_WRITE,
+        label: "Database Write",
+        description: "Insert or update records in your database",
+        icon: DatabaseIcon,
+      },
+    ],
   },
 ];
 
@@ -72,10 +101,6 @@ export function NodeSelector({
       }
 
       setNodes((nodes) => {
-        const hasInitialTrigger = nodes.some(
-          (node) => node.type === NodeType.INITIAL
-        );
-
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
 
@@ -91,10 +116,6 @@ export function NodeSelector({
           type: selection.type,
         };
 
-        if (hasInitialTrigger) {
-          return [newNode];
-        }
-
         return [...nodes, newNode];
       });
 
@@ -106,81 +127,63 @@ export function NodeSelector({
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent side="right" className="w-full sm:max-w-md overflow-y-auto">
-        <SheetHeader>
-          <SheetTitle>What triggers this workflow?</SheetTitle>
+      <SheetContent
+        side="right"
+        className="w-full sm:max-w-md overflow-y-auto bg-[#fafafa] dark:bg-[#111] border-l border-border"
+      >
+        <SheetHeader className="p-4 border-b">
+          <SheetTitle className="text-lg font-semibold">
+            Add a new step
+          </SheetTitle>
           <SheetDescription>
-            A trigger is a step that starts your workflow
+            Choose a trigger or action to add to your workflow
           </SheetDescription>
         </SheetHeader>
-        <div className="">
-          {triggerNodes.map((nodeType) => {
-            const Icon = nodeType.icon;
 
-            return (
-              <div
-                key={nodeType.type}
-                className="w-full justify-start h-auto py-5 px-4 rounded-none cursor-pointer border-l-2 border-transparent hover:border-l-primary"
-                onClick={() => handleNodeSelect(nodeType)}
-              >
-                <div className="flex items-center gap-6 w-full overflow-hidden">
-                  {typeof Icon === "string" ? (
-                    <img
-                      src={Icon}
-                      alt={nodeType.label}
-                      className="size-65 object-contain rounded-sm"
-                    />
-                  ) : (
-                    <Icon className="size-5" />
-                  )}
-                  <div className="flex flex-col items-start text-left">
-                    <span className="font-medium text-sm">
-                      {nodeType.label}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      {nodeType.description}
-                    </span>
-                  </div>
-                </div>
+        <div className="p-4 space-y-8">
+          {NODE_CATEGORIES.map((category, index) => (
+            <div key={category.title}>
+              <div className="mb-3">
+                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+                  {category.title}
+                </h3>
+                {category.description && (
+                  <p className="text-xs text-muted-foreground/80 mt-1">
+                    {category.description}
+                  </p>
+                )}
               </div>
-            );
-          })}
-        </div>
 
-        <Separator />
-
-        <div className="">
-          {executionNodes.map((nodeType) => {
-            const Icon = nodeType.icon;
-
-            return (
-              <div
-                key={nodeType.type}
-                className="w-full justify-start h-auto py-5 px-4 rounded-none cursor-pointer border-l-2 border-transparent hover:border-l-primary"
-                onClick={() => handleNodeSelect(nodeType)}
-              >
-                <div className="flex items-center gap-6 w-full overflow-hidden">
-                  {typeof Icon === "string" ? (
-                    <img
-                      src={Icon}
-                      alt={nodeType.label}
-                      className="size-65 object-contain rounded-sm"
-                    />
-                  ) : (
-                    <Icon className="size-5" />
-                  )}
-                  <div className="flex flex-col items-start text-left">
-                    <span className="font-medium text-sm">
-                      {nodeType.label}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      {nodeType.description}
-                    </span>
-                  </div>
-                </div>
+              <div className="grid gap-3">
+                {category.nodes.map((nodeType) => {
+                  const Icon = nodeType.icon;
+                  return (
+                    <div
+                      key={nodeType.type}
+                      onClick={() => handleNodeSelect(nodeType)}
+                      className="group flex items-start gap-3 p-3 bg-card hover:bg-accent transition rounded-md border border-border cursor-pointer"
+                    >
+                      <div className="flex items-center justify-center h-10 w-10 rounded-md bg-accent/40 group-hover:bg-primary/10">
+                        <Icon className="size-5 text-muted-foreground group-hover:text-primary transition" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-medium text-sm">
+                          {nodeType.label}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          {nodeType.description}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })}
+
+              {index < NODE_CATEGORIES.length - 1 && (
+                <Separator className="my-6" />
+              )}
+            </div>
+          ))}
         </div>
       </SheetContent>
     </Sheet>

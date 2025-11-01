@@ -7,6 +7,12 @@ import {
   KeyIcon,
   LogOutIcon,
   StarIcon,
+  SettingsIcon,
+  BarChartIcon,
+  ZapIcon,
+  LayersIcon,
+  FileTextIcon,
+  UsersIcon,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,21 +35,30 @@ const menuItems = [
   {
     title: "Main",
     items: [
-      {
-        title: "Workflows",
-        icon: FolderOpenIcon,
-        url: "/workflows",
-      },
-      {
-        title: "Credentials",
-        icon: KeyIcon,
-        url: "/credentials",
-      },
-      {
-        title: "Executions",
-        icon: HistoryIcon,
-        url: "/executions",
-      },
+      { title: "Workflows", icon: FolderOpenIcon, url: "/workflows" },
+      { title: "Credentials", icon: KeyIcon, url: "/credentials" },
+      { title: "Executions", icon: HistoryIcon, url: "/executions" },
+    ],
+  },
+  {
+    title: "Automation",
+    items: [
+      { title: "Triggers", icon: ZapIcon, url: "/triggers" },
+      { title: "Tasks", icon: LayersIcon, url: "/tasks" },
+    ],
+  },
+  {
+    title: "Analytics",
+    items: [
+      { title: "Dashboard", icon: BarChartIcon, url: "/dashboard" },
+      { title: "Reports", icon: FileTextIcon, url: "/reports" },
+    ],
+  },
+  {
+    title: "Settings",
+    items: [
+      { title: "Team", icon: UsersIcon, url: "/team" },
+      { title: "Settings", icon: SettingsIcon, url: "/settings" },
     ],
   },
 ];
@@ -51,7 +66,6 @@ const menuItems = [
 const AppSidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
-
   const { hasActiveSubscription, isLoading } = useHasActiveSubscription();
 
   return (
@@ -66,6 +80,7 @@ const AppSidebar = () => {
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarHeader>
+
       <SidebarContent>
         {menuItems.map((group) => (
           <SidebarGroup key={group.title}>
@@ -85,7 +100,7 @@ const AppSidebar = () => {
                     >
                       <Link href={item.url} prefetch>
                         <item.icon className="size-4" />
-                        <span className="">{item.title}</span>
+                        <span>{item.title}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -95,6 +110,7 @@ const AppSidebar = () => {
           </SidebarGroup>
         ))}
       </SidebarContent>
+
       <SidebarFooter>
         <SidebarMenu>
           {!hasActiveSubscription && !isLoading && (
@@ -104,7 +120,7 @@ const AppSidebar = () => {
                 className="gap-x-3 h-10 px-4 bg-primary hover:bg-primary/80 text-white hover:text-white transition-colors"
                 onClick={() => authClient.checkout({ slug: "Flowbit-Pro" })}
               >
-                <StarIcon className="h-4 w-4"></StarIcon>
+                <StarIcon className="h-4 w-4" />
                 <span>Upgrade to Pro</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -116,10 +132,11 @@ const AppSidebar = () => {
               className="gap-x-3 h-10 px-4"
               onClick={() => authClient.customer.portal()}
             >
-              <CreditCardIcon className="h-4 w-4"></CreditCardIcon>
+              <CreditCardIcon className="h-4 w-4" />
               <span>Billing Portal</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
+
           <SidebarMenuItem>
             <SidebarMenuButton
               tooltip="Sign Out"
@@ -134,7 +151,7 @@ const AppSidebar = () => {
                 })
               }
             >
-              <LogOutIcon className="h-4 w-4"></LogOutIcon>
+              <LogOutIcon className="h-4 w-4" />
               <span>Sign Out</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
