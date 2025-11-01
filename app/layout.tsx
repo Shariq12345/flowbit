@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 
-import "./globals.css";
 import { TRPCReactProvider } from "@/trpc/client";
 import { Toaster } from "@/components/ui/sonner";
 
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import "./globals.css";
+import { Provider } from "jotai";
 
 export const metadata: Metadata = {
   title: "Flowbit — Automate Anything Visually",
@@ -23,7 +24,7 @@ export default function RootLayout({
       <body className={`${GeistSans.className}  antialiased`}>
         <TRPCReactProvider>
           <NuqsAdapter>
-            {children}
+            <Provider>{children}</Provider>
             <Toaster richColors />
           </NuqsAdapter>
         </TRPCReactProvider>

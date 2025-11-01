@@ -20,7 +20,7 @@ export const WorkflowNode = ({
   name,
   onDelete,
   onSettings,
-  showToolbar,
+  showToolbar = true,
 }: WorkflowNodeProps) => {
   return (
     <>
