@@ -33,6 +33,13 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 
 const formSchema = z.object({
+  variableName: z
+    .string()
+    .min(1, { message: "Variable name is required" })
+    .regex(/^[A-Za-z_$][A-Za-z0-9_$]*$/, {
+      message:
+        "Variable name must start with a letter or undescore and contains only letters, numbers and _",
+    }),
   endpoint: z.url({ message: "Please enter a valid url" }),
   method: z.enum(["GET", "POST", "PUT", "PATCH", "DELETE"]),
   body: z.string().optional(),
@@ -57,6 +64,7 @@ export const HttpRequestDialog = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      variableName: defaultValues.variableName || "",
       endpoint: defaultValues.endpoint || "",
       method: defaultValues.method || "GET",
       body: defaultValues.body || "",
@@ -66,13 +74,15 @@ export const HttpRequestDialog = ({
   useEffect(() => {
     if (open) {
       form.reset({
+        variableName: defaultValues.variableName || "",
         endpoint: defaultValues.endpoint || "",
         method: defaultValues.method || "GET",
         body: defaultValues.body || "",
       });
     }
-  }, [open, defaultValues]);
+  }, [open, defaultValues, form]);
 
+  const watchVariableName = form.watch("variableName") || "variable-name";
   const watchMethod = form.watch("method");
   const showBodyField = ["POST", "PUT", "PATCH"].includes(watchMethod);
 
@@ -120,6 +130,43 @@ export const HttpRequestDialog = ({
             onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-6 mt-4"
           >
+            <FormField
+              control={form.control}
+              name="variableName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Variable Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="httpRequest" {...field} />
+                  </FormControl>
+                  <FormDescription className="text-xs">
+                    Name this node to access its response data in other nodes:
+                  </FormDescription>
+                  <ul className="text-xs space-y-1 mt-1.5 text-muted-foreground">
+                    <li>
+                      <span className="font-medium">Response data:</span>{" "}
+                      <code className="bg-gray-100 px-1 rounded">
+                        {`{{${watchVariableName}.data}}`}
+                      </code>
+                    </li>
+                    <li>
+                      <span className="font-medium">Status code:</span>{" "}
+                      <code className="bg-gray-100 px-1 rounded">
+                        {`{{${watchVariableName}.statusCode}}`}
+                      </code>
+                    </li>
+                    <li>
+                      <span className="font-medium">Headers:</span>{" "}
+                      <code className="bg-gray-100 px-1 rounded">
+                        {`{{${watchVariableName}.headers}}`}
+                      </code>
+                    </li>
+                  </ul>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="method"
