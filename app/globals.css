@@ -233,6 +233,44 @@ body {
   }
 }
 
+/* Modern Scrollbar Styles */
+* {
+  /* For Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+/* For Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: var(--radius-lg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--border) 70%, transparent);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--muted-foreground) 30%,
+    transparent
+  );
+}
+
+/* For corner where vertical and horizontal scrollbars meet */
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 /* React Flow node selection styles */
 .react-flow__node.selected #base-node {
   @apply ring-3 ring-muted-foreground/25 shadow-lg;

@@ -45,12 +45,12 @@ const NODE_CATEGORIES: {
         description: "Run the flow manually with a button click",
         icon: MousePointerClickIcon,
       },
-      {
-        type: NodeType.SCHEDULE_TRIGGER,
-        label: "Scheduled Trigger",
-        description: "Run the flow on a time interval or cron job",
-        icon: ClockIcon,
-      },
+      // {
+      //   type: NodeType.SCHEDULE_TRIGGER,
+      //   label: "Scheduled Trigger",
+      //   description: "Run the flow on a time interval or cron job",
+      //   icon: ClockIcon,
+      // },
     ],
   },
   {
@@ -63,12 +63,12 @@ const NODE_CATEGORIES: {
         description: "Make an HTTP request to another service",
         icon: GlobeIcon,
       },
-      {
-        type: NodeType.DATABASE_WRITE,
-        label: "Database Write",
-        description: "Insert or update records in your database",
-        icon: DatabaseIcon,
-      },
+      // {
+      //   type: NodeType.DATABASE_WRITE,
+      //   label: "Database Write",
+      //   description: "Insert or update records in your database",
+      //   icon: DatabaseIcon,
+      // },
     ],
   },
 ];

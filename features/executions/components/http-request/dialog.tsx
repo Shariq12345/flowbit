@@ -39,43 +39,39 @@ const formSchema = z.object({
   //   .refine(),
 });
 
-export type FormType = z.infer<typeof formSchema>;
+export type HttpRequestFormValues = z.infer<typeof formSchema>;
 
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (values: z.infer<typeof formSchema>) => void;
-  defaultEndpoint?: string;
-  defaultMethod?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-  defaultBody?: string;
+  defaultValues?: Partial<HttpRequestFormValues>;
 }
 
 export const HttpRequestDialog = ({
   open,
   onOpenChange,
   onSubmit,
-  defaultBody,
-  defaultEndpoint,
-  defaultMethod = "GET",
+  defaultValues = {},
 }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      endpoint: defaultEndpoint,
-      method: defaultMethod,
-      body: defaultBody,
+      endpoint: defaultValues.endpoint || "",
+      method: defaultValues.method || "GET",
+      body: defaultValues.body || "",
     },
   });
 
   useEffect(() => {
     if (open) {
       form.reset({
-        endpoint: defaultEndpoint,
-        method: defaultMethod,
-        body: defaultBody,
+        endpoint: defaultValues.endpoint || "",
+        method: defaultValues.method || "GET",
+        body: defaultValues.body || "",
       });
     }
-  }, [open, defaultBody, defaultMethod, defaultEndpoint]);
+  }, [open, defaultValues]);
 
   const watchMethod = form.watch("method");
   const showBodyField = ["POST", "PUT", "PATCH"].includes(watchMethod);
@@ -147,23 +143,26 @@ export const HttpRequestDialog = ({
                       <SelectItem value="DELETE">DELETE</SelectItem>
                     </SelectContent>
                   </Select>
-                  <FormDescription className="text-xs space-y-1">
-                    <div>
-                      • <span className="font-medium">GET:</span> Retrieve data
-                      (most common)
-                    </div>
-                    <div>
-                      • <span className="font-medium">POST:</span> Create new
-                      data or submit forms
-                    </div>
-                    <div>
-                      • <span className="font-medium">PUT/PATCH:</span> Update
-                      existing data
-                    </div>
-                    <div>
-                      • <span className="font-medium">DELETE:</span> Remove data
-                    </div>
+                  <FormDescription className="text-xs">
+                    Choose the appropriate method for your request:
                   </FormDescription>
+                  <ul className="text-xs space-y-1 mt-1.5 text-muted-foreground">
+                    <li>
+                      <span className="font-medium">GET:</span> Retrieve data
+                      (most common)
+                    </li>
+                    <li>
+                      <span className="font-medium">POST:</span> Create new data
+                      or submit forms
+                    </li>
+                    <li>
+                      <span className="font-medium">PUT/PATCH:</span> Update
+                      existing data
+                    </li>
+                    <li>
+                      <span className="font-medium">DELETE:</span> Remove data
+                    </li>
+                  </ul>
                   <FormMessage />
                 </FormItem>
               )}
@@ -181,21 +180,23 @@ export const HttpRequestDialog = ({
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription className="text-xs space-y-1">
-                    <div>Enter the complete URL for your API endpoint:</div>
-                    <div>
-                      • Static:{" "}
+                  <FormDescription className="text-xs">
+                    Enter the complete URL for your API endpoint:
+                  </FormDescription>
+                  <ul className="text-xs space-y-1 mt-1.5 text-muted-foreground">
+                    <li>
+                      <span className="font-medium">Static:</span>{" "}
                       <code className="bg-gray-100 px-1 rounded">
                         https://api.example.com/users
                       </code>
-                    </div>
-                    <div>
-                      • Dynamic:{" "}
+                    </li>
+                    <li>
+                      <span className="font-medium">Dynamic:</span>{" "}
                       <code className="bg-gray-100 px-1 rounded">
                         https://api.example.com/users/{"{{userId}}"}
                       </code>
-                    </div>
-                  </FormDescription>
+                    </li>
+                  </ul>
                   <FormMessage />
                 </FormItem>
               )}
@@ -216,21 +217,23 @@ export const HttpRequestDialog = ({
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription className="text-xs space-y-1">
-                      <div>Format your request body as JSON. Examples:</div>
-                      <div>
-                        • Single value:{" "}
+                    <FormDescription className="text-xs">
+                      Format your request body as JSON. Examples:
+                    </FormDescription>
+                    <ul className="text-xs space-y-1 mt-1.5 text-muted-foreground">
+                      <li>
+                        <span className="font-medium">Single value:</span>{" "}
                         <code className="bg-gray-100 px-1 rounded">
                           "name": "{"{{user.name}}"}"
                         </code>
-                      </div>
-                      <div>
-                        • Object:{" "}
+                      </li>
+                      <li>
+                        <span className="font-medium">Object:</span>{" "}
                         <code className="bg-gray-100 px-1 rounded">
                           "data": "{"{{json userData}}"}"
                         </code>
-                      </div>
-                    </FormDescription>
+                      </li>
+                    </ul>
                     <FormMessage />
                   </FormItem>
                 )}
