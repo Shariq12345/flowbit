@@ -45,12 +45,14 @@ const NODE_CATEGORIES: {
         description: "Run the flow manually with a button click",
         icon: MousePointerClickIcon,
       },
-      // {
-      //   type: NodeType.SCHEDULE_TRIGGER,
-      //   label: "Scheduled Trigger",
-      //   description: "Run the flow on a time interval or cron job",
-      //   icon: ClockIcon,
-      // },
+      {
+        type: NodeType.GOOGLE_FORM_TRIGGER,
+        label: "Google Form Submission",
+        description: "Trigger workflow when someone submits a Google Form",
+        icon: ({ className }) => (
+          <img src="/googleform.svg" alt="Google Form" className={className} />
+        ),
+      },
     ],
   },
   {
