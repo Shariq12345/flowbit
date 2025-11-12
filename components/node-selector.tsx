@@ -53,6 +53,14 @@ const NODE_CATEGORIES: {
           <img src="/googleform.svg" alt="Google Form" className={className} />
         ),
       },
+      {
+        type: NodeType.STRIPE_TRIGGER,
+        label: "Stripe",
+        description: "Trigger workflow when stripe event is captured",
+        icon: ({ className }) => (
+          <img src="/stripe.svg" alt="Stripe" className={className} />
+        ),
+      },
     ],
   },
   {
