@@ -70,15 +70,33 @@ const NODE_CATEGORIES: {
       {
         type: NodeType.HTTP_REQUEST,
         label: "HTTP Request",
-        description: "Make an HTTP request to another service",
+        description: "Send an HTTP request to an external service.",
         icon: GlobeIcon,
       },
-      // {
-      //   type: NodeType.DATABASE_WRITE,
-      //   label: "Database Write",
-      //   description: "Insert or update records in your database",
-      //   icon: DatabaseIcon,
-      // },
+      {
+        type: NodeType.GEMINI,
+        label: "Gemini",
+        description: "Generate text or data using Google Gemini.",
+        icon: ({ className }) => (
+          <img src="/gemini.svg" alt="Gemini" className={className} />
+        ),
+      },
+      {
+        type: NodeType.OPENAI,
+        label: "OpenAI",
+        description: "Access OpenAI models for text or data generation.",
+        icon: ({ className }) => (
+          <img src="/openai.svg" alt="OpenAI" className={className} />
+        ),
+      },
+      {
+        type: NodeType.ANTHROPIC,
+        label: "Anthropic",
+        description: "Use Anthropic models for safe, high-quality AI outputs.",
+        icon: ({ className }) => (
+          <img src="/anthropic.svg" alt="Anthropic" className={className} />
+        ),
+      },
     ],
   },
 ];

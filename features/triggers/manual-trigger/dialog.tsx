@@ -18,7 +18,7 @@ export const ManualTriggerDialog = ({ open, onOpenChange }: Props) => {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Manual Trigger Node</DialogTitle>
+          <DialogTitle>Manual Trigger</DialogTitle>
           <DialogDescription>
             A manual trigger lets you start your workflow on-demand with a
             single click
