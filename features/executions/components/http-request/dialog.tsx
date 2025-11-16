@@ -102,7 +102,7 @@ export const HttpRequestDialog = ({
             systems.
           </DialogDescription>
         </DialogHeader>
-        <div className="rounded-md bg-blue-50 p-3 text-sm">
+        {/* <div className="rounded-md bg-blue-50 p-3 text-sm">
           <p className="text-blue-600 font-medium">Quick Tips:</p>
           <ul className="mt-1 space-y-1 text-blue-600 text-xs list-disc pl-4">
             <li>
@@ -124,7 +124,7 @@ export const HttpRequestDialog = ({
               </code>
             </li>
           </ul>
-        </div>
+        </div> */}
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
