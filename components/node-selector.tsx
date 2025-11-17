@@ -35,9 +35,10 @@ const NODE_CATEGORIES: {
   description?: string;
   nodes: NodeTypeOption[];
 }[] = [
+  // ========== TRIGGERS ==========
   {
     title: "Triggers",
-    description: "Start your workflow when something happens",
+    description: "Start your workflow based on an event",
     nodes: [
       {
         type: NodeType.MANUAL_TRIGGER,
@@ -47,55 +48,87 @@ const NODE_CATEGORIES: {
       },
       {
         type: NodeType.GOOGLE_FORM_TRIGGER,
-        label: "Google Form Submission",
-        description: "Trigger workflow when someone submits a Google Form",
+        label: "Google Form",
+        description: "Run workflow on form submission",
         icon: ({ className }) => (
-          <img src="/googleform.svg" alt="Google Form" className={className} />
+          <img src="/googleform.svg" className={className} />
         ),
       },
       {
         type: NodeType.STRIPE_TRIGGER,
         label: "Stripe",
-        description: "Trigger workflow when stripe event is captured",
+        description: "Trigger when an event occurs in Stripe",
         icon: ({ className }) => (
-          <img src="/stripe.svg" alt="Stripe" className={className} />
+          <img src="/stripe.svg" className={className} />
         ),
       },
     ],
   },
+
+  // ========== ACTIONS ==========
   {
     title: "Actions",
-    description: "Perform tasks or interact with APIs",
+    description: "General workflow actions and utilities",
     nodes: [
       {
         type: NodeType.HTTP_REQUEST,
         label: "HTTP Request",
-        description: "Send an HTTP request to an external service.",
+        description: "Call any API using HTTP",
         icon: GlobeIcon,
       },
+    ],
+  },
+
+  // ========== AI MODELS ==========
+  {
+    title: "AI Models",
+    description: "Use AI to generate text, data, or decisions",
+    nodes: [
       {
         type: NodeType.GEMINI,
         label: "Gemini",
-        description: "Generate text or data using Google Gemini.",
+        description: "Generate text using Google Gemini",
         icon: ({ className }) => (
-          <img src="/gemini.svg" alt="Gemini" className={className} />
+          <img src="/gemini.svg" className={className} />
         ),
       },
       {
         type: NodeType.OPENAI,
         label: "OpenAI",
-        description: "Access OpenAI models for text or data generation.",
+        description: "Use GPT models to generate content",
         icon: ({ className }) => (
-          <img src="/openai.svg" alt="OpenAI" className={className} />
+          <img src="/openai.svg" className={className} />
         ),
       },
       {
         type: NodeType.ANTHROPIC,
         label: "Anthropic",
-        description: "Use Anthropic models for safe, high-quality AI outputs.",
+        description: "Use Claude models for AI tasks",
         icon: ({ className }) => (
-          <img src="/anthropic.svg" alt="Anthropic" className={className} />
+          <img src="/anthropic.svg" className={className} />
         ),
+      },
+    ],
+  },
+
+  // ========== MESSAGING ==========
+  {
+    title: "Messages",
+    description: "Send notifications or messages",
+    nodes: [
+      {
+        type: NodeType.DISCORD,
+        label: "Discord",
+        description: "Send a message in Discord",
+        icon: ({ className }) => (
+          <img src="/discord.svg" className={className} />
+        ),
+      },
+      {
+        type: NodeType.SLACK,
+        label: "Slack",
+        description: "Send a message in Slack",
+        icon: ({ className }) => <img src="/slack.svg" className={className} />,
       },
     ],
   },

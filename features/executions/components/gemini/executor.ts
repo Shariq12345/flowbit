@@ -1,5 +1,5 @@
 import type { NodeExecutor } from "@/features/executions/types";
-import { NonRetriableError } from "inngest";
+import { gemini, NonRetriableError } from "inngest";
 import { generateText } from "ai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import Handlebars from "handlebars";
@@ -24,6 +24,7 @@ type GeminiData = {
 export const geminiExecutor: NodeExecutor<GeminiData> = async ({
   data,
   nodeId,
+  userId,
   context,
   step,
   publish,
@@ -75,12 +76,19 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
     return prisma.credential.findUnique({
       where: {
         id: data.credentialId,
+        userId: userId,
       },
     });
   });
 
   if (!credential) {
-    throw new NonRetriableError("Credential not found");
+    await publish(
+      geminiChannel().status({
+        nodeId,
+        status: "error",
+      })
+    );
+    throw new NonRetriableError("Gemini node: Credential is missing");
   }
 
   const google = createGoogleGenerativeAI({
