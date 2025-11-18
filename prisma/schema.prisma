@@ -102,6 +102,7 @@ model Workflow {
 
   nodes       Node[]
   connections Connection[]
+  executions  Execution[]
 }
 
 enum NodeType {
@@ -153,4 +154,26 @@ model Connection {
   workflowId String?
 
   @@unique([fromNodeId, toNodeId, fromOutput, toInput])
+}
+
+enum ExecutionStatus {
+  RUNNING
+  SUCCESS
+  FAILED
+}
+
+model Execution {
+  id String @id @default(cuid())
+
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  status     ExecutionStatus @default(RUNNING)
+  error      String?         @db.Text
+  errorStack String?         @db.Text
+
+  output         Json?
+  inngestEventId String    @unique
+  workflow       Workflow? @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  workflowId     String
 }
