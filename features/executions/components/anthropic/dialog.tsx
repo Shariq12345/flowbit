@@ -57,7 +57,6 @@ const formSchema = z.object({
   model: z.string().min(1, "Model is required"),
   systemPrompt: z.string().optional(),
   userPrompt: z.string().min(1, "User prompt is required"),
-  //   .refine(),
 });
 
 export type AnthropicFormValues = z.infer<typeof formSchema>;

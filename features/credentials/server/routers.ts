@@ -1,12 +1,12 @@
 import { PAGINATION } from "@/config/constants";
 import prisma from "@/lib/db";
+import { encrypt } from "@/lib/encryption";
 import { CredentialType, NodeType } from "@/lib/generated/prisma/enums";
 import {
   createTRPCRouter,
   premiumProcedure,
   protectedProcedure,
 } from "@/trpc/init";
-import { Edge, Node } from "@xyflow/react";
 import z from "zod";
 
 export const credentialsRouter = createTRPCRouter({
@@ -26,7 +26,7 @@ export const credentialsRouter = createTRPCRouter({
           name,
           userId: ctx.auth.user.id,
           type,
-          value,
+          value: encrypt(value),
         },
       });
     }),
@@ -60,7 +60,7 @@ export const credentialsRouter = createTRPCRouter({
         data: {
           name,
           type,
-          value,
+          value: encrypt(value),
         },
       });
     }),
