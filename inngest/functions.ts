@@ -15,6 +15,8 @@ import { discordChannel } from "./channels/discord";
 import { slackChannel } from "./channels/slack";
 import { webhookTriggerChannel } from "./channels/webhook-trigger";
 import { scheduleTriggerChannel } from "./channels/schedule-trigger";
+import { waitChannel } from "./channels/wait";
+import { emailChannel } from "./channels/email";
 
 export const executeWorkflow = inngest.createFunction(
   {
@@ -47,6 +49,8 @@ export const executeWorkflow = inngest.createFunction(
       slackChannel(),
       webhookTriggerChannel(),
       scheduleTriggerChannel(),
+      waitChannel(),
+      emailChannel(),
     ],
   },
   async ({ event, step, publish }) => {

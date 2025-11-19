@@ -8,6 +8,8 @@ import {
   DatabaseIcon,
   ClockIcon,
   WebhookIcon,
+  HourglassIcon,
+  MailIcon,
 } from "lucide-react";
 import React, { useCallback } from "react";
 import { toast } from "sonner";
@@ -48,6 +50,18 @@ const NODE_CATEGORIES: {
         icon: MousePointerClickIcon,
       },
       {
+        type: NodeType.WEBHOOK_TRIGGER,
+        label: "Webhook",
+        description: "Trigger via HTTP POST request",
+        icon: WebhookIcon,
+      },
+      {
+        type: NodeType.SCHEDULE_TRIGGER,
+        label: "Schedule",
+        description: "Run workflow at regular intervals",
+        icon: ClockIcon,
+      },
+      {
         type: NodeType.GOOGLE_FORM_TRIGGER,
         label: "Google Form",
         description: "Run workflow on form submission",
@@ -63,18 +77,6 @@ const NODE_CATEGORIES: {
           <img src="/stripe.svg" className={className} />
         ),
       },
-      {
-        type: NodeType.WEBHOOK_TRIGGER,
-        label: "Webhook",
-        description: "Trigger via HTTP POST request",
-        icon: WebhookIcon,
-      },
-      {
-        type: NodeType.SCHEDULE_TRIGGER,
-        label: "Schedule",
-        description: "Run workflow at regular intervals",
-        icon: ClockIcon,
-      },
     ],
   },
 
@@ -88,6 +90,12 @@ const NODE_CATEGORIES: {
         label: "HTTP Request",
         description: "Call any API using HTTP",
         icon: GlobeIcon,
+      },
+      {
+        type: NodeType.WAIT,
+        label: "Wait",
+        description: "Pause execution for a duration",
+        icon: HourglassIcon,
       },
     ],
   },
@@ -142,6 +150,12 @@ const NODE_CATEGORIES: {
         label: "Slack",
         description: "Send a message in Slack",
         icon: ({ className }) => <img src="/slack.svg" className={className} />,
+      },
+      {
+        type: NodeType.EMAIL,
+        label: "Email",
+        description: "Send an email via Resend",
+        icon: MailIcon,
       },
     ],
   },

@@ -89,6 +89,7 @@ enum CredentialType {
   OPENAI
   ANTHROPIC
   GEMINI
+  RESEND
 }
 
 model Workflow {
@@ -118,6 +119,8 @@ enum NodeType {
   SLACK
   WEBHOOK_TRIGGER
   SCHEDULE_TRIGGER
+  WAIT
+  EMAIL
 }
 
 model Node {
