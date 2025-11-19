@@ -116,6 +116,8 @@ enum NodeType {
   OPENAI
   DISCORD
   SLACK
+  WEBHOOK_TRIGGER
+  SCHEDULE_TRIGGER
 }
 
 model Node {

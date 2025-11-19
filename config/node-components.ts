@@ -8,6 +8,8 @@ import { SlackNode } from "@/features/executions/components/slack/node";
 import { GoogleFormTriggerNode } from "@/features/triggers/google-form-trigger/node";
 import { ManualTriggerNode } from "@/features/triggers/manual-trigger/node";
 import { StripeTriggerNode } from "@/features/triggers/stripe-trigger/node";
+import { WebhookTriggerNode } from "@/features/triggers/webhook-trigger/node";
+import { ScheduleTriggerNode } from "@/features/triggers/schedule-trigger/node";
 import { NodeType } from "@/lib/generated/prisma/enums";
 import { NodeTypes } from "@xyflow/react";
 
@@ -22,6 +24,8 @@ export const nodeComponents = {
   [NodeType.ANTHROPIC]: AnthropicNode,
   [NodeType.DISCORD]: DiscordNode,
   [NodeType.SLACK]: SlackNode,
+  [NodeType.WEBHOOK_TRIGGER]: WebhookTriggerNode,
+  [NodeType.SCHEDULE_TRIGGER]: ScheduleTriggerNode,
 } as const satisfies NodeTypes;
 
 export type RegisteredNodeType = keyof typeof nodeComponents;

@@ -7,6 +7,7 @@ import {
   MousePointerClickIcon,
   DatabaseIcon,
   ClockIcon,
+  WebhookIcon,
 } from "lucide-react";
 import React, { useCallback } from "react";
 import { toast } from "sonner";
@@ -61,6 +62,18 @@ const NODE_CATEGORIES: {
         icon: ({ className }) => (
           <img src="/stripe.svg" className={className} />
         ),
+      },
+      {
+        type: NodeType.WEBHOOK_TRIGGER,
+        label: "Webhook",
+        description: "Trigger via HTTP POST request",
+        icon: WebhookIcon,
+      },
+      {
+        type: NodeType.SCHEDULE_TRIGGER,
+        label: "Schedule",
+        description: "Run workflow at regular intervals",
+        icon: ClockIcon,
       },
     ],
   },

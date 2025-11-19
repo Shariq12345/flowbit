@@ -13,6 +13,8 @@ import { openAIChannel } from "./channels/openai";
 import { anthropicChannel } from "./channels/anthropic";
 import { discordChannel } from "./channels/discord";
 import { slackChannel } from "./channels/slack";
+import { webhookTriggerChannel } from "./channels/webhook-trigger";
+import { scheduleTriggerChannel } from "./channels/schedule-trigger";
 
 export const executeWorkflow = inngest.createFunction(
   {
@@ -43,6 +45,8 @@ export const executeWorkflow = inngest.createFunction(
       anthropicChannel(),
       discordChannel(),
       slackChannel(),
+      webhookTriggerChannel(),
+      scheduleTriggerChannel(),
     ],
   },
   async ({ event, step, publish }) => {
@@ -125,3 +129,6 @@ export const executeWorkflow = inngest.createFunction(
     };
   }
 );
+
+export { scheduler } from "./scheduler";
+
